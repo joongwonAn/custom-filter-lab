@@ -21,8 +21,8 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
         // Trace ID 발급 (요청 단위 추적)
-        String traceId = UUID.randomUUID().toString();
-        MDC.put("traceId", traceId);
+        String traceId = UUID.randomUUID().toString(); // 요청마다 Trace ID를 생성 -> 로그끼리 연결해주기 위해
+        MDC.put("traceId", traceId); // MDC = 로그에 traceId를 계속 붙여서 출력할 수 있는 공간
 
         long start = System.currentTimeMillis();
         String method = request.getMethod();
@@ -35,7 +35,7 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
         log.info("[REQ][{}] {} {}{}", traceId, method, uri, (maskedQuery.isEmpty() ? "" : "?" + maskedQuery));
 
         try {
-            filterChain.doFilter(request, response);
+            filterChain.doFilter(request, response); // 실제 컨트롤러로 요청 전달
         } finally {
             long took = System.currentTimeMillis() - start;
             int status = response.getStatus();

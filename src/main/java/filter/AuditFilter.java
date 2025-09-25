@@ -20,7 +20,7 @@ public class AuditFilter extends GenericFilterBean {
                          FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest http = (HttpServletRequest) request;
-        String user = (http.getUserPrincipal() != null) ? http.getUserPrincipal().getName() : "ANONYMOUS";
+        String user = (http.getUserPrincipal() != null) ? http.getUserPrincipal().getName() : "ANONYMOUS"; // 로그인 정보가 있으면 사용자 이름 가져오고, 없으면 "익명" 처리
         String uri = http.getRequestURI();
         log.debug("[AUDIT] user={} uri={}", user, uri);
 
